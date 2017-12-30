@@ -55,6 +55,7 @@ For clarity's sake all examples in this document use a customized bash prompt in
     - [I want to delete local branches that were deleted upstream](#i-want-to-delete-local-branches-that-were-deleted-upstream)
     - [I accidentally deleted my branch](#i-accidentally-deleted-my-branch)
     - [I want to delete a branch](#i-want-to-delete-a-branch)
+    - [I want to delete multiple branches](#i-want-to-delete-multiple-branches)
     - [I want to rename a branch](#i-want-to-rename-a-branch)
     - [I want to checkout to a remote branch that someone else is working on](#i-want-to-checkout-to-a-remote-branch-that-someone-else-is-working-on)
     - [I want to create a new remote branch from current local one](#i-want-to-create-a-new-remote-branch-from-current-local-one)
@@ -80,6 +81,8 @@ For clarity's sake all examples in this document use a customized bash prompt in
   - [Finding](#finding)
     - [I want to find a string in any commit](#i-want-to-find-a-string-in-any-commit)
     - [I want to find by author/committer](#i-want-to-find-by-authorcommitter)
+    - [I want to list commits containing specific files](#i-want-to-list-commits-containing-specific-files)
+    - [Find a tag where a commit is referenced](#find-a-tag-where-a-commit-is-referenced)
   - [Submodules](#submodules)
     - [Clone all submodules](#clone-all-submodules)
     - [Remove a submodule](#remove-a-submodule)
@@ -742,6 +745,15 @@ To delete a local branch that *has not* been merged to the current branch or an 
 (master)$ git branch -D my-branch
 ```
 
+<a name="i-want-to-delete-multiple-branches"></a>
+### I want to delete multiple branches
+
+Say you want to delete all branches that start with `fix/`:
+
+```sh
+(master)$ git branch | grep 'fix/' | xargs git branch -d
+```
+
 <a name="i-want-to-rename-a-branch"></a>
 ### I want to rename a branch
 
@@ -1164,6 +1176,37 @@ $ git log --committer=<name or email>
 ```
 
 Keep in mind that author and committer are not the same. The `--author` is the person who originally wrote the code; on the other hand, the `--committer`, is the person who committed the code on behalf of the original author.
+
+<a name="i-want-to-list-commits-containing-specific-files"></a>
+### I want to list commits containing specific files
+
+To find all commits containing a specific file you can use:
+
+
+```sh
+$ git log -- <path to file>
+```
+
+You would usually specify an exact path, but you may also use wild cards in the path and file name:
+
+```sh
+$ git log -- **/*.js
+```
+
+While using wildcards, it's useful to inform `--name-status` to see the list of commited files:
+
+```sh
+$ git log --name-status -- **/*.js
+```
+
+<a name="find-a-tag-where-a-commit-is-referenced"></a>
+### Find a tag where a commit is referenced
+
+To find all tags containing a specific commit:
+
+```sh
+$ git tag --contains <commitid>
+```
 
 ## Submodules
 
